@@ -3,15 +3,15 @@
 #include<queue>
 #include<vector>
 using namespace std;
-
-int N, M, start_point, end_point;
-vector<pair<int,int>> edge[1001];
-
-void dijkstra(){
-    vector<int> distance(N+1,1e9);
-    distance[start_point]=0;
+int T;
+int n,d,c;
+int a,b,s;
+vector<pair<int,int>> edge[10001];
+void dijkstra(int num){
+    vector<int> distance(n+1,1e9);
+    distance[num]=0;
     priority_queue<pair<int,int>> q;
-    q.push({0,start_point});
+    q.push({0,num});
     while(!q.empty()){
         int past_d = -q.top().first;
         int past_e = q.top().second;
@@ -28,18 +28,29 @@ void dijkstra(){
             }
         }
     }
-    cout << distance[end_point] << "\n";
+    int count=0;
+    int maximum=0;
+    for(int i=1; i<=n; i++){
+        if(distance[i]!=1e9){
+            count++;
+            maximum=max(maximum,distance[i]);
+        }
+    }
+    cout << count << " " << maximum << "\n";
 }
-
 int main(void){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    cin >> N >> M;
-    for(int i=0; i<M; i++){
-        int x, y, money;
-        cin >> x >> y >> money;
-        edge[x].push_back({y,money});
+    cin >> T;
+    for(int i=0; i<T; i++){
+        cin >> n >> d >> c;
+        for(int j=0; j<d; j++){
+            cin >> a >> b >> s;
+            edge[b].push_back({a,s});
+        }
+        dijkstra(c);
+        for(int j=0; j<10000; j++){
+            edge[j].clear();
+        }
     }
-    cin >> start_point >> end_point;
-    dijkstra();
 }
