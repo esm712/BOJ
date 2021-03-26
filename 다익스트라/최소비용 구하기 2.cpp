@@ -1,5 +1,6 @@
 #include<iostream>
 #include<algorithm>
+#include<stack>
 #include<queue>
 #include<vector>
 using namespace std;
@@ -10,7 +11,8 @@ vector<pair<int,int>> edge[1001];
 void dijkstra(){
     vector<int> distance(N+1,1e9);
     distance[start_point]=0;
-    vectpr<int> parent(N+1,0);
+    vector<int> parent(N+1,1e9);
+    parent[start_point]=0;
     priority_queue<pair<int,int>> q;
     q.push({0,start_point});
     while(!q.empty()){
@@ -31,6 +33,21 @@ void dijkstra(){
         }
     }
     cout << distance[end_point] << "\n";
+    stack<int> answer;
+    int i=end_point;
+    answer.push(end_point);
+    while(parent[i]!=0){
+        if(parent[i]==1e9){
+            return;
+        }
+        answer.push(parent[i]);
+        i=parent[i];
+    }
+    cout << answer.size() << "\n";
+    while(answer.empty()==0){
+        cout << answer.top() << " ";
+        answer.pop();
+    }
 }
 
 int main(void){
